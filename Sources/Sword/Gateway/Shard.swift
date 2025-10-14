@@ -80,8 +80,7 @@ class Shard: Gateway {
     self.gatewayUrl = gatewayUrl
 
     self.heartbeatQueue = DispatchQueue(
-      label: "me.azoy.sword.shard.\(id).heartbeat",
-      qos: .userInitiated
+      label: "me.azoy.sword.shard.\(id).heartbeat"
     )
     
     self.globalBucket = Bucket(

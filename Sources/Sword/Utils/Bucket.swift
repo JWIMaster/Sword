@@ -45,7 +45,7 @@ class Bucket {
    - parameter interval: Interval at which tokens reset
    */
   init(name: String, limit: Int, interval: Int) {
-    self.worker = DispatchQueue(label: name, qos: .userInitiated)
+    self.worker = DispatchQueue(label: name)
     self.limit = limit
     self.tokens = limit
     self.interval = interval
@@ -88,7 +88,7 @@ class Bucket {
 
    - parameter item: Code block to execute
    */
-  func queue(_ item: DispatchWorkItem) {
+    func queue(_ item: DispatchWorkItem) {
     self.queue.append(item)
     self.check()
   }
@@ -102,4 +102,34 @@ class Bucket {
     self.tokens -= num
   }
 
+}
+
+
+public struct DispatchWorkItem {
+    let block: () -> Void
+
+    public init(_ block: @escaping () -> Void) {
+        self.block = block
+    }
+
+    public func perform() {
+        block()
+    }
+}
+
+
+extension DispatchQueue {
+    func async(execute workItem: DispatchWorkItem) {
+        self.async {
+            workItem.perform()
+        }
+    }
+
+    func asyncAfter(deadline: DispatchTime, execute workItem: DispatchWorkItem) {
+        let deltaNano = max(deadline.uptimeNanoseconds - DispatchTime.now().uptimeNanoseconds, 0)
+        let deltaSeconds = Double(deltaNano) / 1_000_000_000
+        DispatchQueue.main.asyncAfter(deadline: .now() + deltaSeconds) {
+            workItem.perform()
+        }
+    }
 }

@@ -1,34 +1,32 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SSCommonCrypto",
-        "repositoryURL": "https://github.com/Azoy/common-crypto-spm.git",
-        "state": {
-          "branch": null,
-          "revision": "7e9904a0d0c0024a86ab6fe5698ffc8f7799efb4",
-          "version": "1.2.0"
-        }
-      },
-      {
-        "package": "Starscream",
-        "repositoryURL": "https://github.com/Azoy/Starscream.git",
-        "state": {
-          "branch": null,
-          "revision": "a21fca8e9dc83cf3a88a3ba9be15ff17a7e4e8d6",
-          "version": "3.0.5"
-        }
-      },
-      {
-        "package": "SSCZLib",
-        "repositoryURL": "https://github.com/Azoy/zlib-spm.git",
-        "state": {
-          "branch": null,
-          "revision": "f92fc0658af4cd9b11f233e9c02786ecbf75f1ee",
-          "version": "1.2.0"
-        }
+  "pins" : [
+    {
+      "identity" : "common-crypto-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JWIMaster/common-crypto-spm",
+      "state" : {
+        "branch" : "master",
+        "revision" : "1c16bf142f21f9d75364b9992975e348787fa8c5"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "starscream",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JWIMaster/Starscream",
+      "state" : {
+        "branch" : "master",
+        "revision" : "ce4d01a757b871b5e1098668a00c812b9d612043"
+      }
+    },
+    {
+      "identity" : "zlib-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JWIMaster/zlib-spm",
+      "state" : {
+        "branch" : "master",
+        "revision" : "55d7fb3b53fde1f58ad8d8773b044758dbb9b6fb"
+      }
+    }
+  ],
+  "version" : 2
 }
