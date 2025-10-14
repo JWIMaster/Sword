@@ -77,7 +77,7 @@ open class Shield: Sword {
     }
 
     if !self.shieldOptions.requirements.channels.isEmpty {
-      guard !self.shieldOptions.requirements.channels.contains(msg.channel.id) else {
+        guard !self.shieldOptions.requirements.channels.contains(msg.channel!.id) else {
         return
       }
     }
@@ -133,7 +133,7 @@ open class Shield: Sword {
       }
 
       if !command.options.requirements.channels.isEmpty {
-        guard !command.options.requirements.channels.contains(msg.channel.id) else {
+          guard !command.options.requirements.channels.contains(msg.channel!.id) else {
           return
         }
       }
@@ -246,7 +246,7 @@ open class Shield: Sword {
         )
       }
       
-      msg.channel.send(embed)
+        msg.channel!.send(embed)
     }
   }
   

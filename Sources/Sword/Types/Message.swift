@@ -23,7 +23,7 @@ public struct Message {
   public let content: String
 
   /// Channel struct of the message
-  public let channel: TextChannel
+  public let channel: TextChannel?
 
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
@@ -89,7 +89,26 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = sword.getChannel(for: Snowflake(json["channel_id"])!)! as! TextChannel
+      if let channelIdString = json["channel_id"] as? String,
+         let channelId = Snowflake(channelIdString),
+         let channel = sword.getChannel(for: channelId) {
+
+          if let textChannel = channel as? TextChannel {
+              self.channel = textChannel
+          } else if let dmChannel = channel as? DM {
+              self.channel = dmChannel
+          } else {
+              // Some other type (VoiceChannel, GroupDMChannel)
+              print("Warning: Message channel is not TextChannel or DMChannel")
+              self.channel = nil
+          }
+
+      } else {
+          // Channel not found in cache
+          print("Warning: Channel not found for message id \(json["id"] ?? "unknown")")
+          self.channel = nil
+      }
+
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
@@ -106,7 +125,7 @@ public struct Message {
 
     if json["webhook_id"] == nil {
       for (_, guild) in sword.guilds {
-        if guild.channels[self.channel.id] != nil {
+          if guild.channels[self.channel!.id] != nil {
           self.member = guild.members[self.author!.id]
           break
         }
@@ -155,12 +174,12 @@ public struct Message {
     _ reaction: String,
     then completion: ((RequestError?) -> ())? = nil
   ) {
-    self.channel.addReaction(reaction, to: self.id, then: completion)
+      self.channel!.addReaction(reaction, to: self.id, then: completion)
   }
 
   /// Deletes self
   public func delete(then completion: ((RequestError?) -> ())? = nil) {
-    self.channel.deleteMessage(self.id, then: completion)
+      self.channel!.deleteMessage(self.id, then: completion)
   }
 
   /**
@@ -174,7 +193,7 @@ public struct Message {
     from userId: Snowflake? = nil,
     then completion: ((RequestError?) -> ())? = nil
   ) {
-    self.channel.deleteReaction(
+      self.channel!.deleteReaction(
       reaction,
       from: self.id,
       by: userId ?? nil,
@@ -201,7 +220,7 @@ public struct Message {
     with options: [String: Any],
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
-    self.channel.editMessage(self.id, with: options, then: completion)
+      self.channel!.editMessage(self.id, with: options, then: completion)
   }
 
   /**
@@ -213,12 +232,12 @@ public struct Message {
     _ reaction: String,
     then completion: @escaping ([User]?, RequestError?) -> ()
   ) {
-    self.channel.getReaction(reaction, from: self.id, then: completion)
+      self.channel!.getReaction(reaction, from: self.id, then: completion)
   }
 
   /// Pins self
   public func pin(then completion: ((RequestError?) -> ())? = nil) {
-    self.channel.pin(self.id, then: completion)
+      self.channel!.pin(self.id, then: completion)
   }
 
   /**
@@ -230,7 +249,7 @@ public struct Message {
     with message: String,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
-    self.channel.send(message, then: completion)
+      self.channel!.send(message, then: completion)
   }
   
   /**
@@ -246,7 +265,7 @@ public struct Message {
     with message: [String: Any],
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
-    self.channel.send(message, then: completion)
+      self.channel!.send(message, then: completion)
   }
   
   /**
@@ -258,7 +277,7 @@ public struct Message {
     with message: Embed,
     then completion: ((Message?, RequestError?) -> ())? = nil
   ) {
-    self.channel.send(message, then: completion)
+      self.channel!.send(message, then: completion)
   }
   
 }
