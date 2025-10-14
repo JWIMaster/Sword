@@ -23,7 +23,7 @@ public struct Message {
   public let content: String
 
   /// Channel struct of the message
-  public let channel: TextChannel
+  public let channel: Channel?
 
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
@@ -89,7 +89,7 @@ public struct Message {
 
     self.content = json["content"] as! String
 
-    self.channel = sword.getChannel(for: Snowflake(json["channel_id"]) ?? 0) as! TextChannel
+    self.channel = sword.getChannel(for: Snowflake(json["channel_id"])!)! as! TextChannel
 
     if let editedTimestamp = json["edited_timestamp"] as? String {
       self.editedTimestamp = editedTimestamp.date
