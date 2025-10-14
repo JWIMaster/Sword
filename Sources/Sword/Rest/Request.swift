@@ -68,7 +68,7 @@ extension Sword {
 
     if authorization {
       if self.options.isBot {
-        request.addValue("Bot \(token)", forHTTPHeaderField: "Authorization")
+        request.addValue("\(token)", forHTTPHeaderField: "Authorization")
       }else {
         request.addValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
       }
