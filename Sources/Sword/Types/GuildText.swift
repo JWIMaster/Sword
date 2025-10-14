@@ -106,9 +106,11 @@ public class GuildText: GuildChannel, TextChannel, Updatable {
         self.position = json["position"] as? Int
         self.topic = json["topic"] as? String
         
-        if let guildId = Snowflake(json["guild_id"]) {
-            sword.guilds[guildId]!.channels[self.id] = self
+        if let guildId = Snowflake(json["guild_id"]),
+           let guild = sword.guilds[guildId] {
+            guild.channels[self.id] = self
         }
+
     }
     
     // MARK: Functions
