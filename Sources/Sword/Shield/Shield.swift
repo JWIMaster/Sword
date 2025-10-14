@@ -41,7 +41,7 @@ open class Shield: Sword {
       self.registerHelp()
     }
     
-    self.on(.ready) { [unowned self] data in
+    self.on(.ready) { [self] data in
       let bot = data as! User
 
       if self.shieldOptions.prefixes.contains("@bot") {
@@ -55,7 +55,7 @@ open class Shield: Sword {
       _ = self.listeners[.ready]!.remove(at: 0)
     }
 
-    self.on(.messageCreate) { [unowned self] data in
+    self.on(.messageCreate) { [self] data in
       guard self.commands.count > 0 else { return }
       
       self.handle(message: data)
@@ -234,7 +234,7 @@ open class Shield: Sword {
   
   /// Creates a default help command for the bot
   func registerHelp() {
-    self.register("help") { [unowned self] msg, args in
+    self.register("help") { [self] msg, args in
       var embed = Embed()
       embed.title = "\(self.user!.username!)'s Help"
       

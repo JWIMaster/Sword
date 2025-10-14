@@ -56,15 +56,15 @@ extension Gateway {
     if self.session == nil {
       self.session = WebSocket(url: URL(string: self.gatewayUrl)!)
       
-      self.session?.onConnect = { [unowned self] in
+      self.session?.onConnect = { [self] in
         self.isConnected = true
       }
       
-      self.session?.onText = { [unowned self] text in
+      self.session?.onText = { [self] text in
         self.handlePayload(Payload(with: text))
       }
       
-      self.session?.onDisconnect = { [unowned self] error in
+      self.session?.onDisconnect = { [self] error in
         self.isConnected = false
         
         guard let error = error else { return }
@@ -85,7 +85,7 @@ extension Gateway {
       )
       let stream = try TLS.InternetSocket(tcp, TLS.Context(.client))
       try WebSocket.connect(to: gatewayUrl, using: stream) {
-        [unowned self] ws in
+        [self] ws in
         
         self.session = ws
         self.isConnected = true

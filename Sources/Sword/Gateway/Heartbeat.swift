@@ -34,7 +34,7 @@ extension Gateway {
     
     self.heartbeatQueue.asyncAfter(
       deadline: .now() + .milliseconds(interval)
-    ) { [unowned self] in
+    ) { [self] in
       self.heartbeat(at: interval)
     }
   }

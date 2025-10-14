@@ -149,7 +149,7 @@ class Shard: Gateway {
       case .noInternet:
         self.sword.globalQueue.asyncAfter(
           deadline: DispatchTime.now() + .seconds(10)
-        ) { [unowned self] in
+        ) { [self] in
           self.sword.warn("Detected a loss of internet...")
           self.reconnect()
         }
@@ -287,7 +287,7 @@ class Shard: Gateway {
    - parameter presence: Whether or not this WS payload updates shard presence
   */
   func send(_ text: String, presence: Bool = false) {
-    let item = DispatchWorkItem { [unowned self] in
+    let item = DispatchWorkItem { [self] in
       #if !os(Linux)
       self.session?.write(string: text)
       #else

@@ -121,7 +121,7 @@ extension Sword {
     #endif
 
     let task = self.session.dataTask(with: request) {
-      [unowned self, unowned sema] data, response, error in
+      [self, unowned sema] data, response, error in
       
       let response = response as! HTTPURLResponse
       let headers = response.allHeaderFields
@@ -170,7 +170,7 @@ extension Sword {
             self.isGloballyLocked = true
             self.globalQueue.asyncAfter(
               deadline: DispatchTime.now() + .seconds(retryAfter)
-            ) { [unowned self] in
+            ) { [self] in
               self.globalUnlock()
             }
 
@@ -180,7 +180,7 @@ extension Sword {
 
           self.globalQueue.asyncAfter(
             deadline: DispatchTime.now() + .seconds(retryAfter)
-          ) { [unowned self] in
+          ) { [self] in
             self.request(
               endpoint,
               body: body,
@@ -195,7 +195,7 @@ extension Sword {
         if response.statusCode >= 500 {
           self.globalQueue.asyncAfter(
             deadline: DispatchTime.now() + .seconds(3)
-          ) { [unowned self] in
+          ) { [self] in
             self.request(
               endpoint,
               body: body,
@@ -220,7 +220,7 @@ extension Sword {
       sema.signal()
     }
 
-    let apiCall = { [unowned self] in
+    let apiCall = { [self] in
       guard rateLimited, self.rateLimits[route] != nil else {
         task.resume()
 
