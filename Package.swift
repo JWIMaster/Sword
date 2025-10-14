@@ -1,4 +1,4 @@
-// swift-tools-version:5.0
+// swift-tools-version:5.6
 
 import PackageDescription
 
@@ -9,9 +9,7 @@ var targetDeps: [Target.Dependency] = []
 #if !os(Linux)
 dependencies += [
   .package(
-    url: "https://github.com/Azoy/Starscream.git",
-    .upToNextMajor(from: "3.0.0")
-  )
+    url: "https://github.com/JWIMaster/Starscream", branch: "master")
 ]
   
 targetDeps += ["Starscream"]
