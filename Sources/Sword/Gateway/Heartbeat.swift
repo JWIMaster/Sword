@@ -10,7 +10,7 @@ import Foundation
 import Dispatch
 
 #if !os(Linux)
-import Starscream
+import SocketRocket
 #else
 import WebSockets
 #endif

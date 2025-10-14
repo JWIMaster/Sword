@@ -173,7 +173,7 @@ open class Sword: Eventable {
         self.shardManager.sword = self
         
         if self.options.willShard {
-            self.getGateway() { [self] data, error in
+            self.getGateway() { [unowned self] data, error in
                 guard let data = data else {
                     guard error!.statusCode == 401 else {
                         sleep(3)
@@ -285,7 +285,7 @@ open class Sword: Eventable {
         self.request(
             .createGuildChannel(guildId),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -317,7 +317,7 @@ open class Sword: Eventable {
         with options: [String: Any],
         then completion: ((Guild?, RequestError?) -> ())? = nil
     ) {
-        self.request(.createGuild, body: options) { [self] data, error in
+        self.request(.createGuild, body: options) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -423,7 +423,7 @@ open class Sword: Eventable {
         self.request(
             .createWebhook(channelId),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -441,7 +441,7 @@ open class Sword: Eventable {
         _ channelId: Snowflake,
         then completion: ((Channel?, RequestError?) -> ())? = nil
     ) {
-        self.request(.deleteChannel(channelId)) { [self] data, error in
+        self.request(.deleteChannel(channelId)) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -478,7 +478,7 @@ open class Sword: Eventable {
         _ guildId: Snowflake,
         then completion: ((Guild?, RequestError?) -> ())? = nil
     ) {
-        self.request(.deleteGuild(guildId)) { [self] data, error in
+        self.request(.deleteGuild(guildId)) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -516,7 +516,7 @@ open class Sword: Eventable {
     ) {
         self.request(
             .deleteInvite(invite: inviteId)
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -690,7 +690,7 @@ open class Sword: Eventable {
         self.request(
             .editMessage(channelId, messageId),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -916,7 +916,7 @@ open class Sword: Eventable {
         from guildId: Snowflake,
         then completion: @escaping ([User]?, RequestError?) -> ()
     ) {
-        self.request(.getGuildBans(guildId)) { [self] data, error in
+        self.request(.getGuildBans(guildId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -968,7 +968,7 @@ open class Sword: Eventable {
             return
         }
         
-        self.request(.getChannel(channelId)) { [self] data, error in
+        self.request(.getChannel(channelId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1030,7 +1030,7 @@ open class Sword: Eventable {
             return
         }
         
-        self.request(.getGuildChannels(guildId)) { [self] data, error in
+        self.request(.getGuildChannels(guildId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1094,7 +1094,7 @@ open class Sword: Eventable {
         self.request(
             .createDM,
             body: ["recipient_id": userId.description]
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1149,7 +1149,7 @@ open class Sword: Eventable {
             return
         }
         
-        self.request(.getGuild(guildId)) { [self] data, error in
+        self.request(.getGuild(guildId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1195,7 +1195,7 @@ open class Sword: Eventable {
         from guildId: Snowflake,
         then completion: @escaping ([Webhook]?, RequestError?) -> ()
     ) {
-        self.request(.getGuildWebhooks(guildId)) { [self] data, error in
+        self.request(.getGuildWebhooks(guildId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1251,7 +1251,7 @@ open class Sword: Eventable {
     ) {
         self.request(
             .getGuildMember(guildId, userId)
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1280,7 +1280,7 @@ open class Sword: Eventable {
         self.request(
             .listGuildMembers(guildId),
             params: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1308,7 +1308,7 @@ open class Sword: Eventable {
     ) {
         self.request(
             .getChannelMessage(channelId, messageId)
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1338,7 +1338,7 @@ open class Sword: Eventable {
         self.request(
             .getChannelMessages(channelId),
             params: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1362,7 +1362,7 @@ open class Sword: Eventable {
         from channelId: Snowflake,
         then completion: @escaping ([Message]?, RequestError?) -> ()
     ) {
-        self.request(.getPinnedMessages(channelId)) { [self] data, error in
+        self.request(.getPinnedMessages(channelId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1415,7 +1415,7 @@ open class Sword: Eventable {
                 messageId,
                 reaction.urlPathPercentEncoded()
             )
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1472,7 +1472,7 @@ open class Sword: Eventable {
         _ userId: Snowflake,
         then completion: @escaping (User?, RequestError?) -> ()
     ) {
-        self.request(.getUser(userId)) { [self] data, error in
+        self.request(.getUser(userId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1535,7 +1535,7 @@ open class Sword: Eventable {
         token: String? = nil,
         then completion: @escaping (Webhook?, RequestError?) -> ()
     ) {
-        self.request(.getWebhook(webhookId, token)) { [self] data, error in
+        self.request(.getWebhook(webhookId, token)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1553,7 +1553,7 @@ open class Sword: Eventable {
         from channelId: Snowflake,
         then completion: @escaping ([Webhook]?, RequestError?) -> ()
     ) {
-        self.request(.getChannelWebhooks(channelId)) { [self] data, error in
+        self.request(.getChannelWebhooks(channelId)) { [unowned self] data, error in
             if let error = error {
                 completion(nil, error)
             }else {
@@ -1634,7 +1634,7 @@ open class Sword: Eventable {
         self.request(
             .modifyChannel(channelId),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -1674,7 +1674,7 @@ open class Sword: Eventable {
         self.request(
             .modifyGuildChannelPositions(guildId),
             body: ["array": options]
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -1744,7 +1744,7 @@ open class Sword: Eventable {
         self.request(
             .modifyGuild(guildId),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -1903,7 +1903,7 @@ open class Sword: Eventable {
         self.request(
             .modifyWebhook(webhookId, token),
             body: options
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -2008,7 +2008,7 @@ open class Sword: Eventable {
         self.request(
             .createMessage(channelId),
             body: ["content": content]
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -2049,7 +2049,7 @@ open class Sword: Eventable {
             .createMessage(channelId),
             body: !content.isEmpty ? content : nil,
             file: file
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -2072,7 +2072,7 @@ open class Sword: Eventable {
         self.request(
             .createMessage(channelId),
             body: ["embed": content.encode()]
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {
@@ -2107,7 +2107,7 @@ open class Sword: Eventable {
         self.request(
             .modifyCurrentUser,
             body: ["username": name]
-        ) { [self] data, error in
+        ) { [unowned self] data, error in
             if let error = error {
                 completion?(nil, error)
             }else {

@@ -30,7 +30,7 @@ protocol Gateway: class {
   
   var isConnected: Bool { get set }
   
-  var session: WebSocket? { get set }
+  var session: SRWebSocket? { get set }
   
   func handleDisconnect(for code: Int)
   
@@ -48,33 +48,24 @@ protocol Gateway: class {
 
 }
 
+import Foundation
+import Dispatch
+import SocketRocket
+
 extension Gateway {
-  
-  /// Starts the gateway connection
+
   func start() {
     #if !os(Linux)
     if self.session == nil {
-      self.session = WebSocket(url: URL(string: self.gatewayUrl)!)
-      
-      self.session?.onConnect = { [self] in
-        self.isConnected = true
-      }
-      
-      self.session?.onText = { [self] text in
-        self.handlePayload(Payload(with: text))
-      }
-      
-      self.session?.onDisconnect = { [self] error in
-        self.isConnected = false
-        
-        guard let error = error else { return }
-        
-        self.handleDisconnect(for: (error as NSError).code)
-      }
+        // Create a SocketRocket WebSocket
+        guard let url = URL(string: self.gatewayUrl) else { return }
+        let socket = SRWebSocket(url: url)
+        socket!.delegate = SocketDelegateWrapper(gateway: self)
+        self.session = socket
     }
 
     self.acksMissed = 0
-    self.session?.connect()
+    (self.session as? SRWebSocket)?.open()
     #else
     do {
       let gatewayUri = try URI(self.gatewayUrl)
@@ -102,11 +93,41 @@ extension Gateway {
           self.handleDisconnect(for: Int(code))
         }
       }
-    }catch {
+    } catch {
       print("[Sword] \(error.localizedDescription)")
       self.start()
     }
     #endif
   }
+}
 
+/// A private wrapper to forward SocketRocket delegate calls to your Gateway instance
+private class SocketDelegateWrapper: NSObject, SRWebSocketDelegate {
+    weak var gateway: Gateway?
+
+    init(gateway: Gateway) {
+        self.gateway = gateway
+    }
+
+    func webSocketDidOpen(_ webSocket: SRWebSocket!) {
+        gateway?.isConnected = true
+    }
+
+    func webSocket(_ webSocket: SRWebSocket!, didFailWithError error: Error!) {
+        gateway?.isConnected = false
+        if let code = (error as NSError?)?.code {
+            gateway?.handleDisconnect(for: code)
+        }
+    }
+
+    func webSocket(_ webSocket: SRWebSocket!, didReceiveMessage message: Any!) {
+        if let text = message as? String {
+            gateway?.handlePayload(Payload(with: text))
+        }
+    }
+
+    func webSocket(_ webSocket: SRWebSocket!, didCloseWithCode code: Int, reason: String!, wasClean: Bool) {
+        gateway?.isConnected = false
+        gateway?.handleDisconnect(for: code)
+    }
 }
