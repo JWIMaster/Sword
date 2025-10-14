@@ -178,6 +178,7 @@ class Shard: Gateway {
 
     var data: [String: Any] = [
       "token": self.sword.token,
+      "intents": self.sword.intents,
       "properties": [
         "$os": osName,
         "$browser": "Sword",
@@ -187,8 +188,7 @@ class Shard: Gateway {
       "large_threshold": 250,
       "shard": [
         self.id, self.shardCount
-      ],
-      "intents": self.sword.intents
+      ]
     ]
     
     if let presence = self.sword.presence {
