@@ -126,7 +126,7 @@ open class Sword: Eventable {
             .createReaction(
                 channelId,
                 messageId,
-                reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!)
+                reaction.urlPathPercentEncoded())
         ) { data, error in
             completion?(error)
         }

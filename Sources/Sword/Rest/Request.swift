@@ -8,6 +8,7 @@
 
 import Foundation
 import Dispatch
+import FoundationCompatKit
 
 /// HTTP Handler
 extension Sword {
@@ -76,7 +77,7 @@ extension Sword {
 
     if let reason = reason {
       request.addValue(
-        reason.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!,
+        reason.urlPathPercentEncoded(),
         forHTTPHeaderField: "X-Audit-Log-Reason"
       )
     }
