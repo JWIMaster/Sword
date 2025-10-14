@@ -8,12 +8,10 @@ var targetDeps: [Target.Dependency] = []
 
 #if !os(Linux)
 dependencies += [
-  .package(
-    url: "https://github.com/JWIMaster/Starscream", branch: "master"),
   .package(url: "https://github.com/JWIMaster/FoundationCompatKit.git", branch: "master")
 ]
   
-targetDeps += ["Starscream", "FoundationCompatKit"]
+targetDeps += ["FoundationCompatKit"]
 #else
 dependencies += [
   .package(

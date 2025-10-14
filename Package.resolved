@@ -1,39 +1,12 @@
 {
   "pins" : [
     {
-      "identity" : "common-crypto-spm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JWIMaster/common-crypto-spm",
-      "state" : {
-        "branch" : "master",
-        "revision" : "1c16bf142f21f9d75364b9992975e348787fa8c5"
-      }
-    },
-    {
       "identity" : "foundationcompatkit",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/JWIMaster/FoundationCompatKit.git",
       "state" : {
         "branch" : "master",
         "revision" : "4934a727790e6170205c9060a7a6771030ee324f"
-      }
-    },
-    {
-      "identity" : "starscream",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JWIMaster/Starscream",
-      "state" : {
-        "branch" : "master",
-        "revision" : "ce4d01a757b871b5e1098668a00c812b9d612043"
-      }
-    },
-    {
-      "identity" : "zlib-spm",
-      "kind" : "remoteSourceControl",
-      "location" : "https://github.com/JWIMaster/zlib-spm",
-      "state" : {
-        "branch" : "master",
-        "revision" : "55d7fb3b53fde1f58ad8d8773b044758dbb9b6fb"
       }
     }
   ],
