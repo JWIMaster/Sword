@@ -211,11 +211,28 @@ public struct Overwrite {
 
    - parameter json: JSON representable as a dictionary
   */
-  init(_ json: [String: Any]) {
-    self.allow = json["allow"] as! Int
-    self.deny = json["deny"] as! Int
-    self.id = Snowflake(json["id"])!
-    self.type = json["type"] as! String
-  }
+    init(_ json: [String: Any]) {
+        // IDs are always strings, Snowflake can handle it
+        self.id = Snowflake(json["id"])!
+        self.type = json["type"] as! String
+
+        // Permissions may come as String or Int
+        if let allowInt = json["allow"] as? Int {
+            self.allow = allowInt
+        } else if let allowStr = json["allow"] as? String, let allowInt = Int(allowStr) {
+            self.allow = allowInt
+        } else {
+            self.allow = 0
+        }
+
+        if let denyInt = json["deny"] as? Int {
+            self.deny = denyInt
+        } else if let denyStr = json["deny"] as? String, let denyInt = Int(denyStr) {
+            self.deny = denyInt
+        } else {
+            self.deny = 0
+        }
+    }
+
 
 }
