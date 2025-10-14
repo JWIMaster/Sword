@@ -23,7 +23,7 @@ public struct Message {
   public let content: String
 
   /// Channel struct of the message
-  public let channel: Channel?
+  public let channel: TextChannel
 
   /// If message was edited, this is the time it happened
   public let editedTimestamp: Date?
