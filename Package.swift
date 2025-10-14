@@ -1,4 +1,4 @@
-// swift-tools-version:4.0
+// swift-tools-version:5.0
 
 import PackageDescription
 
@@ -28,6 +28,9 @@ targetDeps += ["URI", "WebSockets"]
 
 let package = Package(
   name: "Sword",
+  platforms: [
+        .iOS("7.0")
+  ],
   products: [
     .library(name: "Sword", targets: ["Sword"])
   ],
