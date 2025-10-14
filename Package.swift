@@ -27,7 +27,7 @@ targetDeps += ["URI", "WebSockets"]
 let package = Package(
   name: "Sword",
   platforms: [
-        .iOS("7.0")
+        .iOS("8.0")
   ],
   products: [
     .library(name: "Sword", targets: ["Sword"])
