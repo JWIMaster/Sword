@@ -46,7 +46,7 @@ extension Sword {
       route += ".delete"
     }
 
-    var urlString = "https://discordapp.com/api/v7\(endpointInfo.url)"
+    var urlString = "https://discordapp.com/api/v9\(endpointInfo.url)"
 
     if let params = params {
       urlString += "?"

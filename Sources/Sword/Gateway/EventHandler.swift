@@ -262,6 +262,31 @@ extension Shard {
 
     /// MESSAGE_CREATE
     case .messageCreate:
+        let channelId = data["channel_id"]
+        
+        if let channelSnowflake = Snowflake(channelId) {
+            if self.sword.getChannel(for: channelSnowflake) == nil { // Try to get it cached first
+                // Not cached → fetch via REST
+                self.sword.getChannel(channelSnowflake, rest: true) { channel, error in
+                    if let error = error {
+                        self.sword.error("Error getting channel in messageCreate: \(error)")
+                        return
+                    }
+
+                    guard let _ = channel else {
+                        self.sword.error("Unable to get channel on messageCreate.")
+                        return
+                    }
+
+                    // At this point, the channel is cached and ready
+                    // You can create the Message object here if needed
+                }
+            }
+        } else {
+            return
+        }
+
+        
       let msg = Message(self.sword, data)
       
       if let channel = msg.channel as? GuildText {
@@ -269,6 +294,7 @@ extension Shard {
       }
       
       self.sword.emit(.messageCreate, with: msg)
+        
 
     /// MESSAGE_DELETE
     case .messageDelete:
