@@ -122,12 +122,7 @@ extension Sword {
     let task = self.session.dataTask(with: request) {
       [unowned self, unowned sema] data, response, error in
       
-        guard let response = response as? HTTPURLResponse else {
-            completion(nil, error != nil ? RequestError(error! as NSError) : nil)
-            sema.signal()
-            return
-        }
-
+      let response = response as! HTTPURLResponse
       let headers = response.allHeaderFields
 
       if error != nil {
