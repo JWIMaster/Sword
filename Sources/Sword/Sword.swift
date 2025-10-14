@@ -605,9 +605,7 @@ open class Sword: Eventable {
         in channelId: Snowflake,
         then completion: ((RequestError?) -> ())? = nil
     ) {
-        let reaction = reaction.addingPercentEncoding(
-            withAllowedCharacters: .urlPathAllowed
-        )!
+        let reaction = reaction.urlPathPercentEncoded()
         let url: Endpoint
         if let userId = userId {
             url = .deleteUserReaction(channelId, messageId, reaction, userId)
@@ -1415,7 +1413,7 @@ open class Sword: Eventable {
             .getReactions(
                 channelId,
                 messageId,
-                reaction.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+                reaction.urlPathPercentEncoded()
             )
         ) { [unowned self] data, error in
             if let error = error {
