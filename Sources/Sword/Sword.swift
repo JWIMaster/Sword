@@ -185,7 +185,7 @@ open class Sword: Eventable {
                     return
                 }
                 
-                self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=6"
+                self.shardManager.gatewayUrl = "\(data["url"]!)/?encoding=json&v=9"
                 self.shardCount = data["shards"] as! Int
                 
                 guard self.options.isDistributed else {
