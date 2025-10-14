@@ -305,7 +305,7 @@ extension Shard {
     case .presenceUpdate:
       let userId = Snowflake((data["user"] as! [String: Any])["id"])!
       let presence = Presence(data)
-      let guildID = Snowflake(data["guild_id"])!
+      let guildID = Snowflake(data["guild_id"]) ?? 0
       
       guard self.sword.options.willCacheAllMembers else {
         guard presence.status == .offline else { return }
