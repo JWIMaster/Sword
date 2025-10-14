@@ -8,6 +8,7 @@
 
 import Foundation
 import Dispatch
+import FoundationCompatKit
 
 /// Main Class for Sword
 open class Sword: Eventable {
@@ -58,7 +59,7 @@ open class Sword: Eventable {
     public internal(set) var readyTimestamp: Date?
     
     /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
-    let session = URLSession(
+    let session = URLSessionCompat(
         configuration: .default,
         delegate: nil,
         delegateQueue: OperationQueue()

@@ -10,6 +10,15 @@
       }
     },
     {
+      "identity" : "foundationcompatkit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/JWIMaster/FoundationCompatKit.git",
+      "state" : {
+        "branch" : "master",
+        "revision" : "cd62db483d08c087cb511008d95b2698106ed665"
+      }
+    },
+    {
       "identity" : "starscream",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/JWIMaster/Starscream",
