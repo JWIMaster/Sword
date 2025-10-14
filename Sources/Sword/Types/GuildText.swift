@@ -202,7 +202,7 @@ public struct Overwrite {
     public let id: Snowflake
     
     /// Either "role" or "member"
-    public let type: String
+    public let type: Int
     
     // MARK: Initializer
     
