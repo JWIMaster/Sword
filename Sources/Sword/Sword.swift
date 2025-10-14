@@ -184,7 +184,7 @@ open class Sword: Eventable {
         
         let arguments = CommandLine.arguments
         
-        guard arguments.count > 1 else {
+        guard arguments.count > 0 else {
           print("[Sword] Insufficient argument count.")
           return
         }
