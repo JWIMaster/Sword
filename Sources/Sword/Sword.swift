@@ -222,10 +222,45 @@ open class Sword: Eventable {
             self.shardManager.create(self.shardCount)
         }
         
+        
+        self.fetchDMs { dms, error in
+            if let error = error {
+                print("[Sword] Failed to fetch DMs: \(error)")
+            } else {
+                print("[Sword] Fetched \(dms?.count ?? 0) DMs")
+            }
+        }
+        
 #if os(macOS)
         CFRunLoopRun()
 #endif
     }
+    
+    
+    public func fetchDMs(completion: @escaping ([DM]?, RequestError?) -> ()) {
+        self.request(.getUserDM) { data, error in
+            if let error = error {
+                completion(nil, error)
+                return
+            }
+            
+            guard let dmArray = data as? [[String: Any]] else {
+                completion([], nil)
+                return
+            }
+            
+            var dms: [DM] = []
+            
+            for dmData in dmArray {
+                let dm = DM(self, dmData)
+                self.dms[dm.id] = dm // cache it
+                dms.append(dm)
+            }
+            
+            completion(dms, nil)
+        }
+    }
+    
     
     /**
      Creates a channel in a guild
