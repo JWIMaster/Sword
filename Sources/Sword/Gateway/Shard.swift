@@ -187,7 +187,8 @@ class Shard: Gateway {
       "large_threshold": 250,
       "shard": [
         self.id, self.shardCount
-      ]
+      ],
+      "intents": self.sword.intents
     ]
     
     if let presence = self.sword.presence {

@@ -75,6 +75,8 @@ open class Sword: Eventable {
 
   /// The bot token
   let token: String
+    
+  var intents: Int = 0
 
   /// Array of unavailable guilds the bot is currently connected to
   public internal(set) var unavailableGuilds = [Snowflake: UnavailableGuild]()
@@ -128,6 +130,14 @@ open class Sword: Eventable {
       completion?(error)
     }
   }
+
+    
+    public func setIntents(intents: Intents...) {
+        self.intents = 0  // reset bitmask
+        for intent in intents {
+            self.intents += intent.rawValue
+        }
+    }
 
   /**
    Bans a member from a guild

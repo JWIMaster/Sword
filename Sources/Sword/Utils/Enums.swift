@@ -540,3 +540,59 @@ public enum Event: String {
   case voiceServerUpdate = "VOICE_SERVER_UPDATE"
 
 }
+
+/// Value for Intents
+public enum Intents: Int {
+    /// The `guilds` intent is required for us to cache channels locally. It is also needed for many events
+    case guilds = 1
+
+    /// Events on member join, leave and updates. This is a Privileged Intent
+    case guildMembers = 2
+
+    /// Ban events
+    case guildBans = 4
+
+    /// Emote and Stickers create, update and delete events
+    case guildEmojisAndStickers = 8
+
+    /// Events on creating, editing or deleting integrations.
+    case guildIntegrations = 16
+
+    /// Webhook events
+    case guildWebhooks = 32
+
+    /// Events on the creation or deletion of invites
+    case guildInvites = 64
+
+    /// Voice State events. Required to determine which members are in a voice channel
+    case guildVoiceStates = 128
+
+    /// Presence events. This is an extremely heavy intent! If you are trying to get information on members, use the `guildMembers` intent instead. This is a privileged Intent
+    case guildPresences = 256
+
+    /// Events on when a message in a guild is created, updated or deleted. This will become a privileged intent in 2022
+    case guildMessages = 512
+
+    /// Events on when a reaction is added to a message in a guild
+    case guildMessageReactions = 1024
+
+    /// Typing event of a member in a guild
+    case guildMessageTyping = 2048
+
+    // TODO: Figure this out
+    case directMessages = 4096
+
+    /// Events on when a reaction is added to a message in a DM
+    case directMessagesReactions = 8192
+
+    /// Typing event of a user in a DM
+    case directMessagesTyping = 16384
+    
+    /// Required to receive full content of all messages. This is a privileged intent as of September 2022
+    case messageContent = 32768
+
+    /// Events on when an event is created, edited or deleted in a guild
+    case guildScheduledEvents = 65536
+}
+
+
