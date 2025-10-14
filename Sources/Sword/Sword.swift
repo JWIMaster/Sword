@@ -59,7 +59,7 @@ open class Sword: Eventable {
     public internal(set) var readyTimestamp: Date?
     
     /// Global URLSession (trust me i saw it on a wwdc talk, this is legit lmfao)
-    let session = URLSessionCompat(
+    let session = URLSession(
         configuration: .default,
         delegate: nil,
         delegateQueue: OperationQueue()
