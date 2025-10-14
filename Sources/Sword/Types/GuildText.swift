@@ -216,7 +216,7 @@ public struct Overwrite {
         self.allow = Int(json["allow"] as! String)!
         self.deny = Int(json["deny"] as! String)!
         self.id = Snowflake(json["id"])!
-        self.type = json["type"] as! String
+        self.type = json["type"] as! Int
     }
     
 }
