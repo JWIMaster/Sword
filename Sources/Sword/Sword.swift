@@ -224,13 +224,13 @@ open class Sword: Eventable {
         }
         
         
-        /*self.fetchDMs { dms, error in
+        self.fetchDMs { dms, error in
             if let error = error {
                 print("[Sword] Failed to fetch DMs: \(error)")
             } else {
                 print("[Sword] Fetched \(dms?.count ?? 0) DMs")
             }
-        }*/
+        }
         
 #if os(macOS)
         CFRunLoopRun()

@@ -90,7 +90,7 @@ extension Sword {
     if let body = body {
       if let array = body["array"] as? [Any] {
         request.httpBody = array.createBody()
-      }else {
+      } else {
         request.httpBody = body.createBody()
       }
 
